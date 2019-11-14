@@ -1,8 +1,5 @@
 <template>
-  
-
   <div class="productListingWrapper">
-      
       <ul class="row">
     <li class="col-md-6" v-bind:class="item.col" v-for="(item,index) in product" :key="index">
         <div class="plProductWrapp">
@@ -101,9 +98,7 @@
         </div>
     </div>
   </div>
-  
 </template>
-
 <script>
 export default {
     data(){
@@ -129,7 +124,6 @@ export default {
     .plImg:after{ transform:translate(-50%,-50%)  scale(0) ; opacity: 0; }
         .listViewDetail{ max-height: 50px;}
 }
-
 }
 .plProductWrapp{ width: 100%; background-color: #ededed;padding: 15px; float: left; height: 100%; position: relative;transition: 0.3s;
     .listViewDetail{ position: absolute; top:100%; left: 0; font-size: 14px; line-height: 50px; display: block; background: #000; text-align: center; color: #fff; padding:0 14px; width: 100%; max-height: 0; overflow: hidden; transition: 0.3s;}
