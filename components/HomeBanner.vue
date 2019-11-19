@@ -137,7 +137,7 @@ export default {
     }
     .progressBarContainer{position: absolute; bottom: 5%; width: 100%; max-width: 1200px; transform: translateX(-50%); left: 50%; line-height: 0;
         .item{ display: inline-block; padding: 5px;
-            span{width: 69px; height: 5px; background:#D5D5D5; display: block; position: relative;
+            span{width: 69px; height: 5px; background:#D5D5D5; display: block; position: relative; cursor: pointer;
             >div{ display: block; height: 100%; background:#FFF000}
             }
         }

@@ -14,7 +14,7 @@
             <div class="imgWraoabt">
               <img :src="page.acf.about_right_side_image.url" alt="">
               <abbr class="abtRightImgBorder"></abbr>
-              <h3>Crafted <span>with Passion</span></h3>
+              <h3 v-html="page.acf.about_right_image_text"></h3>
               <a href="#" ><strong>Company</strong> History <i></i></a>
             </div>
           </div>

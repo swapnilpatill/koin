@@ -2,6 +2,7 @@
   <div>
     <Header/>
     <nuxt />
+    
     <Footer/>
   </div>
 </template>
@@ -28,7 +29,56 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
+.page-enter-active {
+     opacity: 0; transition: 0.6s;
+    } 
+    .page-leave-active {
+      opacity: 0;
+    } 
 
+/*
+.page-enter-active {
+      animation: acrossIn .40s ease-out both;
+    } 
+    .page-leave-active {
+      animation: acrossOut .60s ease-in both;
+    } 
+     @keyframes acrossIn {
+      0% {
+        transform: translate3d(100%, 0, 0);
+      }
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+    @keyframes acrossOut {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(-100%, 0, 0);
+      }
+    } */
+    /* @keyframes acrossIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes acrossOut {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 0;
+      }
+    } */
+.animation{ position: absolute; top: 0; right: 0; width: 100%; height: 100%; display: block; background: red; width: 0; z-index: 1;  transform-origin: top left;
+  
+}
+.backbtn{ position: absolute; left: 100%; top: 50%; font-size: 20px}
 *,
 *:before,
 *:after {

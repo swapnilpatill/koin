@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper bookAppointment">
       <h2>Book an<strong>Appointment</strong></h2>
+      <form @submit.prevent="validateBeforeSubmit">
       <ul class="formWrapBa">
           <li class="fullwidth checkBoxwrap">
               <span class="wpCb">
@@ -9,28 +10,129 @@
               <span class="wpCb">
               <label> <input type="checkbox" name="" id=""> <span>I am a Architect or Designer</span> </label></span>
           </li>
-          <li class="star"><input type="text" class="form-control" name="" placeholder="Name" id=""></li>
-          <li  class="star"><input type="text" class="form-control" name="" placeholder="Mobile" id=""></li>
-          <li  class="star"><input type="email" class="form-control" name="" placeholder="Email" id=""></li>
-          <li><input type="text" class="form-control datepicker" name="" placeholder="Select Date" id=""></li>
+          <li class="star">
+              
+                  <input
+                    name="name"
+                    v-model="name"
+                    v-validate="'required|alpha_spaces'"
+                    :class="{'form-control': true, 'is-invalid': errors.has('name') }"
+                    type="text"
+                    placeholder="Name"
+                  >
+                  <i :class="{'validationline invalid': true, 'active': errors.has('name') }"></i>
+                  <span v-show="errors.has('name')" class="help">{{ errors.first('name') }}</span>
+
+              </li>
+          <li  class="star">
+            <input
+                    name="mobile"
+                    v-model="mobile"
+                    v-validate="'required|numeric|min:10|max:10'"
+                    :class="{'form-control': true, 'is-invalid': errors.has('mobile') }"
+                    type="text"
+                    placeholder="Mobile"
+                  >
+                  <i :class="{'validationline invalid': true, 'active': errors.has('mobile') }"></i>
+                  <span v-show="errors.has('mobile')" class="help">{{ errors.first('mobile') }}</span>
+          </li>
+          <li  class="star">
+               <input
+                          name="email"
+                          v-model="email"
+                          v-validate="'required|email'"
+                          :class="{'input form-control': true, 'is-invalid': errors.has('email'), 'is-valid': !errors.has('email') }"
+                          type="text"
+                          placeholder="Email*"
+                  >
+                  <i :class="{'validationline invalid': true, 'active': errors.has('email') }"></i>
+
+                  <span v-show="errors.has('email')" class="help">{{ errors.first('email') }}</span>
+          </li>
+          <li>
+                <input
+                          name="date"
+                          v-model="date"
+                          v-validate="date"
+                          :class="{'input form-control datepicker': true, 'is-invalid': errors.has('email'), 'is-valid': !errors.has('date') }"
+                          type="text"
+                          placeholder="Date"
+                  >
+                  <i :class="{'validationline invalid': true, 'active': errors.has('date') }"></i>
+
+                  <span v-show="errors.has('date')" class="help">{{ errors.first('date') }}</span>
+
+          </li>
           <li  class="fullwidth"><select class="form-control selectpicker">
   <option>Select Reason</option>
   <option>Select Reason1</option>
   <option>Select Reason2</option>
 </select>
 </li>
-          <li  class="fullwidth"><a href="" class="btn btn-dark">Book Appointment</a></li>
+          <li  class="fullwidth">
+              <button class="btn btn-dark" type="submit"><span>Submit</span></button>
+          </li>
       </ul>
+      </form>
   </div>
 </template>
 
 <script>
 export default {
+    data() {
+    return {
+      customer:"",
+      designer: "",
+      date:"",
+      email: "",
+      name: "",
+      mobile: "",
+      reason: "",
+      page: ""
+    };
+  },
     mounted(){
         $('.datepicker').datepicker();
         $(".selectpicker").selectpicker();
-    }
-
+    },
+methods: {
+    validateBeforeSubmit: function() {
+      const vm = this;
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          let postFormData = {
+            customer: vm.customer,
+            designer: vm.designer,
+            date:vm.date,
+            name: vm.name,
+            email_id: vm.email,
+            mobile: vm.mobile,
+            reason: vm.reason,
+          };
+          try {
+            this.$axios.post(process.env.url.addContact, postFormData).then(res => {
+                if(res.data.status === true){
+                    this.email = '';
+                    this.name = '';
+                    this.mobile = '';
+                    this.customer = '';
+                    this.designer = '';
+                    this.date='';
+                    this.mobile='';
+                    this.reason='';
+                    this.$validator.reset();
+                    swal("Success!", "Thank-you for contacting us we will revert you soon", "success");
+                }else{
+                    swal("Oops!", "Something went wrong please try again", "error");
+                }
+            });
+          } catch (e) {
+            this.error = console.log(e);
+          }
+        }
+      });
+    },
+  }
 }
 </script>
 
@@ -45,11 +147,12 @@ export default {
 }
 ul.formWrapBa{ float: left; width: 100%; margin: 35px 0;
         >li {float: left; width: 50%; padding: 8px; display: block; position: relative;
+        .help{position: absolute; bottom:-1px; line-height: 1; color: red; left: 10px; font-size: 10px;}
         &:last-child {margin-top: 20px}
         &.checkBoxwrap{display: flex; flex-wrap: wrap}
             &.fullwidth{ width: 100%;}
-            a.btn-dark{ background: #000; width:100% ;}
-            input{height: 50px; background: #F4F4F4; color: #000; padding: 20px; border: 0;}
+            > .btn-dark{ background: #000; width:100% ;}
+            input{height: 50px; background: #F4F4F4; color: #000; padding: 20px; border: 0; background-image: none !important}
             &.star:after{ content:""; position: absolute; top: 50%; right: 20px; width: 9px; height: 9px; border-radius: 50%; background: #83C441;  transform: translateY(-50%) }
             .bootstrap-select .dropdown-toggle{ height: 50px;}
         }

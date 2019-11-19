@@ -1,6 +1,23 @@
 
 export default {
   mode: 'universal',
+  pageTransition: {
+    name: 'page',
+    mode: 'out-in',
+    beforeEnter (el) {
+      console.log('Before enter...');
+      jQuery('.animation').css({'right': '0', 'width':'0'});
+      jQuery('.animation').animate({'width': '100%'});
+      
+    },
+    afterEnter (el) {
+      console.log('after enter...');
+      jQuery('.animation').animate({'right': '100%'});
+      
+    },
+    
+  },
+  
   /*
   ** Headers of the page
   */
@@ -74,6 +91,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~plugins/vue_validate.js'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -112,6 +130,7 @@ export default {
     url: {
         main:"http://localhost/",
         homePage: '/wp/v2/pages/7/',
+        productList: '/wp/v2/product/',
     }
   }
 }

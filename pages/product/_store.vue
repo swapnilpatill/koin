@@ -4,6 +4,7 @@
           <div class="container">
               <div class="row">
               <div class="col-md-7">
+                   
                  <div class="sliderWrap">
                      <div class="swSingle">
                           <div class="swsList active" id="#swsingle_1"><img src="@/assets/img/product.png" alt=""></div>
@@ -22,32 +23,42 @@
               <div class="col-md-5 poroductDetailWrapp">
                   <div class="productName">
                       <span>Product Name</span>
-                      <h1><span>FEATHER</span></h1>
+                      <h1><span>{{pageInfo.acf.product_name}}</span></h1>
                   </div>
                   <ul class="prodDetailList">
                       <li>
                           <strong>Code</strong>
-                          <span>KH-101</span>
+                          <span>{{pageInfo.acf.product_code}}</span>
                       </li>
                       <li>
                           <strong>Material</strong>
-                          <span>Brass + SS</span>
+                          <span>{{pageInfo.acf.material}}</span>
                       </li>
                       <li>
                           <strong>Finish</strong>
-                          <span>Black & Copper, Chocolate, Black & Black</span>
+                          <span>{{pageInfo.acf.finish}}</span>
                       </li>
                   </ul>
                   <div class="tableWrap">
                       <table>
-                          <tr>
+                          
+                              <thead>
+                                  <tr>
                               <th colspan="3">Format <span>Size in mm</span></th>
                           </tr>
+                              </thead>
+                          <tbody>
                           <tr>
                               <td>A</td>
                               <td>B</td>
                               <td>C</td>
                           </tr>
+                          <tr :key="index" v-for="(item,index) in pageInfo.acf.format_size_in_mm">
+                               <td v-html="item.a"></td>
+                               <td v-html="item.b"></td>
+                               <td v-html="item.c"></td>
+                          </tr>
+                          </tbody>
                       </table>
                   </div>
               </div>
@@ -66,6 +77,21 @@
 
 <script>
 export default {
+     data(){
+    return{
+      backbtn:true,
+      pageInfo:{}
+    }
+  },
+   asyncData(context) {
+    return context.$axios
+      .get(`${process.env.url.productList}?slug=${context.params.store}`)
+      .then(res => {
+          return { pageInfo: res.data[0] }
+
+      })
+  },
+
     mounted(){
         $('.swSingle').slick({
             dots:false,
@@ -121,4 +147,18 @@ export default {
  .coverimg{
      img{width: 100%}
  }
+ .tableWrap{ max-width: 480px; width: 100%;
+    table{ width: 100%; background: #fff;
+        tr {
+            th{background: #F8F5F5; height: 70px; padding:15px; font-size: 24px;
+            span{ float: right; font-weight: normal; font-size: 16px; margin: 6px 0;}
+            }
+            td{text-align: center; font-size: 16px; padding:13px 5px;
+                & + td {border-left: solid 1px #F4F4F4}
+            }
+            &:first-child td { font-weight: bold}
+            &:nth-child(2n+2) td{ background: #FCFAFA}
+        }
+     }
+  } 
 </style>

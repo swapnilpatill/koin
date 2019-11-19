@@ -1,15 +1,17 @@
 <template>
   <div class="productListingWrapper">
+       
       <ul class="row">
-    <li class="col-md-6" v-bind:class="item.col" v-for="(item,index) in product" :key="index">
+    <li :class="item.acf.listing_box_size" v-for="(item,index) in ProductListing" :key="index">
         <div class="plProductWrapp">
-            <span class="plImg"> <img :src="item.productImg" alt=""> </span>
+            
+            <span class="plImg"> <img :src="item.acf.product_image[0].upload_image.url" alt=""> </span>
             <div class="plName">
-                <strong class="plnSt">{{item.productName}}</strong>
-                <span class="plnNo">{{item.ProductCode}}</span>
-                <p>Door Handle</p>
+                <strong class="plnSt">{{item.acf.product_name}}</strong>
+                <span class="plnNo">{{item.acf.product_code}}</span>
+                <p>{{item.acf.category}}</p>
             </div>
-            <nuxt-link class="listViewDetail" to="/product/asdf">VIEW DETAILS</nuxt-link>
+            <nuxt-link class="listViewDetail" :to="item.type + '/' + item.slug">VIEW DETAILS</nuxt-link>
         </div>
     </li>      
     <li class="col-md-6">
@@ -110,8 +112,13 @@ export default {
                 {productImg:'http://localhost:3000/_nuxt/assets/img/img1.png', productName:'test name 4', ProductCode:'k123', col:'1.4' }
             ]
         }
-    }
+    },
+    props: {
+    ProductListing: {
+      default: () => ({})
+    },
 
+}
 }
 </script>
 <style lang="scss">

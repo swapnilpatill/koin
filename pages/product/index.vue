@@ -21,7 +21,8 @@
                  </ul>
              </div>
          </div>
-         <ProductList/></div>
+         <ProductList :ProductListing="product"/></div>
+         
 </div>
 </template>
 
@@ -30,12 +31,18 @@ import ProductList from '~/components/ProductList';
 export default {
     components:{
         ProductList
-    }
+    },
+    
+  asyncData(context) {
+    return context.$axios.get(process.env.url.productList).then(res => {
+      return { product: res.data }
+    })
+  },
 
 }
 </script>
 <style lang="scss">
-.productHero{ width: 100%; position: relative;
+.productHero{ width: 100%; position: relative; float: left;
 img{ width: 100%}
     .pheroText{ position: absolute; top: 35%; left: 50%; transform: translateX(-50%); width: 100%; max-width: 1200px; text-shadow: 1px 2px 6px rgba(0,0,0,0.5);
         h3{ font-size: 46px; font-family: 'Philosopher', sans-serif; color: #fff; line-height: 1;}
